@@ -72,6 +72,7 @@ public class Stack : MonoBehaviour
         GameManager.instance.EventManager.levelSuccess += gameSuccees;
         GameManager.instance.EventManager.levelFailed+= gameFailed;
         StartPingPong();
+
     }
 
     private void OnDisable()
@@ -80,8 +81,15 @@ public class Stack : MonoBehaviour
         GameManager.instance.EventManager.levelStarted -= gameStarted;
         GameManager.instance.EventManager.levelSuccess -= gameSuccees;
         GameManager.instance.EventManager.levelFailed -= gameFailed;
+        reset();
+        
     }
-    
+
+    void reset()
+    {
+        rb.isKinematic = true;
+        StopPingPong();
+    }
 
     public void StopPingPong()
     {
@@ -142,6 +150,15 @@ public class Stack : MonoBehaviour
     {
         StopPingPong();
         rb.isKinematic = false;
+        DOVirtual.DelayedCall(3, () =>
+        {
+            disable();
+        });
+    }
+
+    void disable()
+    {
+        gameObject.SetActive(false);
     }
 
 }

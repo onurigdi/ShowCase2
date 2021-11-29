@@ -13,6 +13,7 @@ public class Level : MonoBehaviour
     int levelStackCount = 1;
     int perfectScoreCounter;
     public int succeedLevelCount;
+    List<Stack> prevStacks = new List<Stack>();
 
     
 
@@ -86,7 +87,7 @@ public class Level : MonoBehaviour
         LastPlacedStack = ObjectPooler.instance.GetPooledObject("Stack", pos, Quaternion.identity).GetComponent<Stack>();
         LastPlacedStack.SetPosition(new Vector3(0, LastPlacedStack.GetPosition().y, LastPlacedStack.GetPosition().z));
         LastPlacedStack?.StopPingPong();
-        
+        AddToUsedPool(LastPlacedStack);
 
     }
 
@@ -114,7 +115,7 @@ public class Level : MonoBehaviour
         PrevPlacedStack = LastPlacedStack;
         LastPlacedStack = ObjectPooler.instance.GetPooledObject("Stack", pos, Quaternion.identity).GetComponent<Stack>();
         LastPlacedStack.SetScale(PrevPlacedStack.GetTransform().lossyScale);
-
+        AddToUsedPool(LastPlacedStack);
         playerMoveToNextStack();
     }
 
@@ -125,12 +126,25 @@ public class Level : MonoBehaviour
         LevelMaxStackCount = Random.Range(10 + succeedLevelCount, 15 + succeedLevelCount);
         Vector3 finishPos = new Vector3(0, 0.4857f, (Runner.GetPosition().z  + GameManager.instance.Settings.FinishLineLength) + (LevelMaxStackCount * GameManager.instance.Settings.StackLength));
         LastFinishLine = ObjectPooler.instance.GetPooledObject("Finish", finishPos, Quaternion.identity).GetComponent<FinishLine>();
-
+        ClearUsedStacks();
     }
 
 
 
+    void AddToUsedPool(Stack stack)
+    {
+        prevStacks.Add(stack);
+    }
 
+
+    void ClearUsedStacks()
+    {
+        foreach(Stack stack in prevStacks)
+        {
+            stack.LetItFall();
+        }
+        prevStacks.Clear();
+    }
 
 
     void CheckPrevAndLast()
