@@ -46,3 +46,4 @@ MonoBehaviour:
   StackLayer:
     serializedVersion: 2
     m_Bits: 64
+  DefaultStackScale: {x: 2.778142, y: 0.9654673, z: 2.67322}

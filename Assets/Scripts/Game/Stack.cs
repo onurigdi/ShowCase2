@@ -89,6 +89,7 @@ public class Stack : MonoBehaviour
     {
         rb.isKinematic = true;
         StopPingPong();
+        SetScale(GameManager.instance.Settings.DefaultStackScale);
     }
 
     public void StopPingPong()

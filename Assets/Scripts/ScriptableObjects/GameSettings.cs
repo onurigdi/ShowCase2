@@ -15,6 +15,7 @@ public class GameSettings : ScriptableObject
     public Material[] StackMaterials;
     public int[] pingPongArray;
     public LayerMask StackLayer;
+    public Vector3 DefaultStackScale;
     
 
 
